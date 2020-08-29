@@ -4,7 +4,7 @@
  * Plugin Name: Archive Plugin
  * Plugin URI: https://github.com/DanielRuf/wp-archive-plugin
  * Description: Archive a plugin as encrypted/password protected zip file.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Daniel Ruf
  * Author URI: https://daniel-ruf.de
  */
@@ -152,7 +152,8 @@ function wpap_archive_plugin($plugin_file)
 }
 
 // unarchive the supplied plugin
-function wpap_unarchive_plugin($plugin_file) {
+function wpap_unarchive_plugin($plugin_file)
+{
     $plugin = str_replace('_archived.php', '', $plugin_file);
     $php_string = '.php';
     $extract_to = WP_PLUGIN_DIR . '/' . $plugin;
