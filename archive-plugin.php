@@ -51,8 +51,20 @@ function wpap_add_plugin_link($plugin_actions, $plugin_file, $plugin_data)
     return array_merge($plugin_actions, $new_actions);
 }
 
+function wpap_output_information($links_array, $plugin_file_name, $plugin_data, $status)
+{
+    $current_file = basename(__FILE__);
+    $current_folder = basename(__DIR__);
+    if ($plugin_file_name === "{$current_folder}/{$current_file}") {
+        echo "The <code>SECURE_AUTH_SALT</code> secret is used as password.<br/><br/>";
+    }
+    return $links_array;
+}
+
 // finally call the function when the plugin links are rendered
 add_filter('plugin_action_links', 'wpap_add_plugin_link', 10, 3);
+// output additional information below the description
+add_filter('plugin_row_meta', 'wpap_output_information', 10, 4);
 
 // archive and delete the supplied plugin
 function wpap_archive_plugin($plugin_file)
@@ -227,13 +239,14 @@ add_action('admin_menu', 'wpap_archive_plugin_setup_menu');
 
 function wpap_create_archived_plugin_placeholder_file($path, $plugin_data)
 {
+    $password = htmlentities(SECURE_AUTH_SALT);
     $template = <<<EOT
 <?php
 
 /**
  * Plugin Name: %s (archived)
  * Plugin URI: %s
- * Description: %s
+ * Description: %s <em>This plugin is currently archived and the archive is protected with a password. The <code>SECURE_AUTH_SALT</code> secret is used as password.</em>
  * Version: %s
  * Author: %s
  * Author URI: %s
