@@ -61,7 +61,7 @@ function archive_plugin($plugin_file)
     if (current_user_can('delete_plugins')) {
         // cancel if the plugin is still active
         if (is_plugin_active($plugin_file)) {
-            exit;
+            return false;
         };
         // get the plugin name
         $plugin = basename(plugin_dir_path($plugin_file));
@@ -80,7 +80,7 @@ function archive_plugin($plugin_file)
         }
         // cancel if it is not found
         if (!$plugin_found) {
-            exit;
+            return false;
         }
         // assume that this is in wp-plugins/plugins
         $is_subfolder = true;
@@ -96,7 +96,7 @@ function archive_plugin($plugin_file)
         // create new zip archive instance
         $zip = new ZipArchive;
         // try to create zip archive
-        if ($zip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
+        if (file_exists($root_path) && $zip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
             // zip recursively if it is a folder
             if ($is_subfolder) {
                 // create recursive directory iterator
@@ -148,13 +148,15 @@ function unarchive_plugin($plugin_file) {
     }
     $zipfile = WP_PLUGIN_DIR . '/' . $plugin . '_archived.zip';
     $zip = new ZipArchive;
-    if ($zip->open($zipfile) === TRUE) {
+    if (file_exists($zipfile) && $zip->open($zipfile) === TRUE) {
         $zip->setPassword(SECURE_AUTH_SALT);
         $zip->extractTo($extract_to);
         $zip->close();
-        unlink(WP_PLUGIN_DIR . '/' . $plugin_file);
-        unlink($zipfile);
+        $success_archive = unlink(WP_PLUGIN_DIR . '/' . $plugin_file);
+        $success_zip = unlink($zipfile);
+        return ($success_archive && $success_zip);
     }
+    return false;
 }
 
 // run the archive plugin on the page
@@ -242,5 +244,6 @@ EOT;
         $plugin_data['AuthorURI'] ?? '',
         '%s'
     );
-    file_put_contents($path . '_archived.php', $template_filled);
+    $success = file_put_contents($path . '_archived.php', $template_filled);
+    return $success;
 }
