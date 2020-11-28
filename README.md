@@ -24,11 +24,11 @@ This plugin works for me in a few small tests cases without any issues. As there
 
 ## Screenshots
 
-Plugin list view:  
+### Plugin list view
 ![](list.png)
 
-Archived plugin:  
+### Archived plugin
 ![](archived.png)
 
-Placeholder file with new description:  
+### Placeholder file with new description
 ![](description.png)
