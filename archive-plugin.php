@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Archive Plugin
- * Plugin URI: https://github.com/DanielRuf/wp-archive-plugin
+ * Plugin URI: https://github.com/DanielRuf/archive-plugin
  * Description: Archive inactive plugins as encrypted/password protected zip files.
  * Version: 1.2.0
  * License: GPLv3 or later
