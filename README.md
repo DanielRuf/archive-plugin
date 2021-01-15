@@ -20,7 +20,7 @@ The password for the archive is the value of the `SECURE_AUTH_SALT` constant.
 
 ## Disclaimer
 
-This plugin works for me in a few small tests cases without any issues. As there is no feedback from other users and so it is not widely battle-tested it is wise to test the functionality and create a backup before using it.
+This plugin works for me in a few small test cases without any issues. As there is no feedback from other users and so it is not widely battle-tested it is wise to test the functionality and create a backup before using it.
 
 ## Screenshots
 
